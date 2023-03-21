@@ -6,7 +6,7 @@
         + express : lưu khi thay đổi
         + cors : quản lý data
         + nodemon : lưu lại code như save auto
-        -> npm i express dotenv cors nodemon
+        -> npm i --save-dev express dotenv cors nodemon
     + .env 
         + file môi trường
 

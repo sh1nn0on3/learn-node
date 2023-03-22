@@ -10,4 +10,5 @@ router.get("/v1", (req, res) => {
   return res.send(`V1`);
 });
 
-module.exports = router;
+// module.exports = router;
+export default router;

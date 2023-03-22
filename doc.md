@@ -52,6 +52,7 @@
 
 4 : 
     + chỉnh lại createAt ( tgian thuc )
+        
     + cài npm babel ( dùng thoải mái es5 or es6 )
         + tạo .babelrc
             + config .bable

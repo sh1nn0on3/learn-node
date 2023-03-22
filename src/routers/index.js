@@ -1,4 +1,4 @@
-const router = require("./user");
+import router from "./user";
 
 const initRoutes = (app) => {
   app.use("/demo", router);

@@ -1,6 +1,5 @@
-const express = require("express");
-
-
+// const express = require("express");
+import express from "express";
 
 // import cors from "cors";
 const initRoutes = require("./src/routers");
@@ -12,8 +11,6 @@ const app = express();
 app.use(express.json());
 
 initRoutes(app);
-
-
 
 const PORT = process.env.PORT || 5001;
 

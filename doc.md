@@ -79,3 +79,36 @@
                 }
             }
     =>    routers > controller > service
+
+
+5 :
+    + check db ( email, password )
+    + service 
+        + register = ({ email, password })
+            + try {...}
+                + const response = await db.User.findOrCreate(...)
+                        -> User : tên bảng định tạo
+                        -> findOrCreate : của lib squelize << tìm hiểu ở GG >>
+                            -> hiểu đơn giản như useState nhưng cái setState dạng boolean
+                    + ...
+                        + where : email << kiểm tra xem email đã có chưa ? >>
+                        + defaults : {
+                            email,
+                            password << cận thận dùng thêm mã hóa - nhưng lười t k dùng >>
+                        }  << để tạo nhiều cột >>
+                + resolve ({ ... })
+                    + err : response[1] ? 0 : 1 ,
+                        -> response[1] : là boolean của thg trên để xem đã có email chưa ? 
+                        -> 0 : false  || 1 : true 
+                        < để khi in ra biết nó true hay false chứ cũng chả logic gì >
+                    + mess : response[1] ? " Response is successfull " : " false "
+                        -> toán tử 3 ngôi như bth đọc tự hiểu !!
+    + controller > auth.js
+        + const { email , password } = req.body << lấy data gửi lên >>
+        + if( !email || !password ) return res.status(400).json({
+            err : 1 ;
+            mes : " Missing payloads "
+        })
+            -> để tối ưu hiệu suất của api nếu k có thì return ra ngoài
+
+                    

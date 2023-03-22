@@ -1,13 +1,12 @@
 const express = require("express");
+const initRoutes = require("./src/routers");
 require("dotenv").config();
 
 const app = express();
 
 app.use(express.json());
 
-app.use("/", (req, res) => {
-  return res.send("server on ...");
-});
+initRoutes(app)
 
 const PORT = process.env.PORT || 8080;
 

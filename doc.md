@@ -110,5 +110,65 @@
             mes : " Missing payloads "
         })
             -> để tối ưu hiệu suất của api nếu k có thì return ra ngoài
+    + test qua api.http
+    + migrations > user 
+        + role_code :
+            + defaultValue : "R3"
+            -> xóa user trên local để reload lại 
 
-                    
+6 
+    + coding API Login 
+    + jsonwebtoken 
+        -> cài bằng npm 
+    + trong env 
+        -> JWT_SECRET = ...
+        -> ghi cgi cũng được 
+    + service > auth
+        + import jwt from "jsonwebtoken"
+            -> đọc doc 
+            -> có 2 hàm chính sign -- verify
+                -> sign ( payload , secret , [opt , callback] )
+                -> verify (token , secret , [opt, callback])
+        + const token = response[1] ? jwt.sign({...} , ... , {...}) : null
+            -> check thử response trả về true hay false
+                << có thể log ra nhìn để dễ hiểu hơn >>
+            -> dùng hàm jwt.sign 
+                -> id : response[0].id , email, role_code 
+                    << gọi các biến id , email , role >>
+                -> process.env.JWT_SECRET 
+                    << đoạn mã hóa  >>
+                -> expireIn : "5d"
+                    << thời gian sống >>
+        + resole 
+            + token 
+        + Gọi đăng ký từ gửi api.http 
+
+        + auth -> login
+                -> thêm login = copy auth đổi thành login 
+            + db.User.findOne({...})
+                + where : { email },
+                + raw : true 
+                    -> raw : true để lấy mỗi obj thuần 
+                    <!-- -> login thì không cần token  -->
+            + resolve 
+                + đổi token -> response 
+    + controllers > auth  
+        + thêm thằng login bên dưới 
+            -> xog sửa auth -> login 
+    + routes
+        + router.post(.. , ..)
+            + đường dẫn "/"
+            + controllers.login 
+    + test 
+        + api.http 
+            -> 1 request 
+    + bouns : hiện token khi gửi request
+        + service > auth
+            + const token = response ? ... : null
+                -> response check xem tìm hàm đúng hay không
+                -> jwt.sign({...})
+                    -> hàm trả về id , email , role_code 
+                        << như thằng auth bên trên  >>
+            + resolve ({...})
+                + thêm thằng 
+                    -> "access_token" : token ? `Bearer ${token}` : token

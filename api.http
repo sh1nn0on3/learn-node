@@ -1,5 +1,19 @@
-POST http://localhost:5000/api/v1/auth/
+GET http://localhost:5000/api/v1/user
 
 ###
+POST http://localhost:3000/api/v1/auth/register
+Content-Type: application/json
 
-GET http://localhost:5000/api/v1/user
+{
+    "email": "admiaddddâdâddadaadđaadadadadadadâdadwwnn@gmail.com",
+    "password": "123456"
+}
+
+###
+POST http://localhost:3000/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email": "admiaddddâdadaadđaadadadadadadâdadwwnn@gmail.com",
+    "password": "123456"
+}

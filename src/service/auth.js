@@ -44,19 +44,20 @@ export const register = ({ email, password }) =>
 export const login = ({ email, password }) =>
   new Promise(async (resolve, reject) => {
     try {
-      console.log(b);
+      // console.log(b);
       // console.log(3);
       const response = await db.User.findOne({
         where: { email },
         // row: true,
       });
+
       console.log("🚀 ~ file: auth.js:53 ~ newPromise ~ response:", response);
-      const token = response[1]
+      const token = response
         ? jwt.sign(
             {
-              id: response[0].id,
-              email: response[0].email,
-              role_code: response[0].role_code,
+              id: response.id,
+              email: response.email,
+              role_code: response.role_code,
             },
             process.env.JWT_SECRET,
             { expiresIn: "5d" }
@@ -64,8 +65,8 @@ export const login = ({ email, password }) =>
         : null;
       // console.log("🚀 ~ file: auth.js:14 ~ newPromise ~ response:", response)
       resolve({
-        err: response[1] ? 0 : 1,
-        mes: response[1] ? "register is success" : "email false",
+        err: response ? 0 : 1,
+        mes: response ? "register is success" : "email false",
         access_token: token ? `Bearer ${token}` : token,
       });
 

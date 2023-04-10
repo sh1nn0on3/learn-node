@@ -172,3 +172,33 @@
             + resolve ({...})
                 + thêm thằng 
                     -> "access_token" : token ? `Bearer ${token}` : token
+
+
+7 .
+    + Tạo handle xử lý và validate sever side 
+        + tạo thư viện xử lý lỗi 
+        + dùng packet để xử lý (check input)
+    + xử lý err
+        + dùng lib http-error && joi (install npm)
+    
+    + tạo 1 folder mới middlewares
+            -> xác thực token 
+        + tạo handle_errors.js 
+                -> tạo hay không tạo cũng được ~~
+            +  import createError from "http-errors"
+            + tạo biển trả ra :V (12:25 hoặc đọc doc)
+        + vào routers/index 
+            + sửa thằng trả ra cuối đầu ra 
+        + vào controller/auth
+            + cũng đổi hiện lỗi vào handle_errors
+    + dùng joi
+            -> kiểm tra form đầu vào xem đúng chưa ?
+            -> kiểm tra tk , mk đầu vào đã đúng kiểu đúng như ý muốn chưa 
+        + tạo helpers / joi_schema.js
+            + export email , password 
+        + vào controller / auth 
+            + chỉnh lại email , password theo ý 
+            + joi.object({email, password}).validate(req.body)
+
+
+

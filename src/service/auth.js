@@ -46,6 +46,7 @@ export const login = ({ email, password }) =>
     try {
       // console.log(b);
       // console.log(3);
+
       const response = await db.User.findOne({
         where: { email },
         // row: true,

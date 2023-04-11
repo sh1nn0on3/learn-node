@@ -200,5 +200,52 @@
             + chỉnh lại email , password theo ý 
             + joi.object({email, password}).validate(req.body)
 
+8 .
+        -> verify access token để check input 
+    + services
+        + tạo user.js 
+                -> cop từ auth sang
+            + tạo export const getOne = (userId)
+                    -> sequelize -- dùng hàm findOne 
+                + try{...}
+                    + await db.user.findOne({...})
+                        + where : {id : userId}
+                                -> kiểm tra hàm truyền vào là id có userId nào trùng cần tìm hay k ?
+                        + attributes : {
+                            exclude: ["password"]
+                        }
+                    + sửa lại resolve 
+        + xuất ra file index.js
+
+    + controllers/user.js
+        + tạo getCurrent
+                -> user hiện tại 
+            + const {id} = req.user 
+                    -> lấy id trong req user được gửi lên 
+            + response = await services.getOne(id)
+                    -> dùng getOne để lấy id của req.user trên 
 
 
+    + middlewares
+        + handle_errors
+            + tạo thêm notAuth như badRequest (Unauthorized)
+        + tạo verify_token.js 
+                -> tạo check lỗi 
+            + import jwt from ...
+            + const verifyToken = (req , res , next) =>{
+                const token = req.header.authorization
+                if(!token) return notAuth(`...`)
+                const accessToken = token.split(" ")[1] 
+                jwt.verify(accessToken , process.env.JWT_SECRET , (err , user) => {
+                    if(err) return notAuth("Access token may be expired or invalid")
+                    req.user = user
+                    next()
+                } )
+            }
+            + export default verifyToken
+
+    + routes/user
+        + điều hướng đổi thành getCurrent 
+        + router.use(verifyToken)
+
+                        

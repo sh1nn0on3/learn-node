@@ -67,7 +67,7 @@ export const login = ({ email, password }) =>
       // console.log("🚀 ~ file: auth.js:14 ~ newPromise ~ response:", response)
       resolve({
         err: response ? 0 : 1,
-        mes: response ? "register is success" : "email false",
+        mes: response ? "login is success" : "email false",
         access_token: token ? `Bearer ${token}` : token,
       });
 

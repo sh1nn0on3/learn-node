@@ -1,11 +1,13 @@
 // import router from "./user";
 import user from "./user";
 import auth from "./auth";
+import insert from "./insert"
 import { notFound } from "../middlewares/handle_errors";
 
 const initRoutes = (app) => {
   app.use("/api/v1/user", user);
   app.use("/api/v1/auth", auth);
+  app.use("/api/v1/insert", insert);
 
   // return app.use("/", (req, res) => {
   //   return res.send("server on ....");

@@ -1,10 +1,11 @@
-+ setup node js
+1.
+    + setup node js
     + package.json ( npm init )
         + node index.js
         + "type" : model : es6 mặc định là es5
     + thêm lib :
         + express : lưu khi thay đổi
-        + cors : quản lý data
+        + cors : bảo mật trình duyệt web
         + nodemon : lưu lại code như save auto
         -> npm i --save-dev express dotenv cors nodemon
     + .env 
@@ -248,4 +249,139 @@
         + điều hướng đổi thành getCurrent 
         + router.use(verifyToken)
 
-                        
+9. 
+    + get dataa
+
+10. 
+    <!-- models để tạo bảng -->
+    + models > book.js
+            --> tạo bảng là book  (cop role.js)
+        + book.init({...})
+            + title : DataTypes.(string)
+            + price: (float)
+            + available : (integer)
+            + image : (string)
+            + image : (string)
+            + description : (text)
+            + category_code: (string)  
+                    --> khóa phụ
+            
+    + models > category.js 
+            --> tạo bảng chứa các mục chứa sách (travel , historicalFiction)
+        + value : {...}
+            + set(value){...}
+                + this.setDateValue("value" , value.charAy(0).toUpperCase() + value.slice(1))
+                        --> để viết hoa chữ cái đầu tiên   
+    <!-- migrations để đưa models lên db -->
+    + migrations > create_books.js
+            --> đưa books lên db (cop roles sang)
+        + sửa createTable
+            + id 
+                + bỏ autoI 
+                        --> bỏ tăng vì dùng urc là Id
+                    + type : String
+                + tạo bảng như đầu vào bên models
+                + lưu ý :
+                    + avaiable && price có thể không có giá trị 
+                            --> thêm defaultValue : 0
+    + migrations > create_category.js
+            --> cũng như bên books
+            --> lưu ý :
+                    + viết hoa chữ đầu
+                    + thêm "s" thành categories 
+                    + còn lại như hàm bên models
+                    
+    <!-- npx sequelize db:migrate -->
+    + check 
+        + check thử xem đã có ở db (xampp chưa )
+
+
+
+    <!-- db lên insert  -->
+    + service > insert.js 
+            --> chỉ log ra test thử xem chạy được không
+        + import data "../../data/data.json"
+        + try{...}catch{...}
+            + log(...)
+                + object.keys(data)
+                        --> coi data là cái mảng và key chứa các mảng con 
+            + resole("Ok")
+            + reject(error)
+
+        + export 
+
+    <!-- điều khiển hàm db -->
+    + controller > insert.js
+            --> tạo hàm insert
+        + const inserData = async(req, res) => {...}
+            + try{...}catch(err){...}
+                + getOne --> inserData
+        + export
+
+    <!--  Điều hướng db -->
+    + routers > insert.js 
+            --> tạo hàm insert 
+        + tạo hàm 
+            + router.get("\" , controllers.insertData)
+
+    + index.js
+        + import 
+                --> gọi hàm
+        + app.use("/api/v1/insert" , insert)
+                --> định nghĩa routes
+                
+    <!--  test api.http -->
+    + Get (link )
+        + nó in ra OK (res ở services)
+        + log ra mảng các key
+
+    <!-- tạo hàm xử lý -->
+    + helper > fn.js
+            --> tạo đoạn code làm ID (28:22)
+        + export const generateCode = (value) => {...}
+            + let output = "" ;
+            + value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ").forEach(item => {...})
+                + output += item.charAt(1) + item.charAt(0)
+                        --> normalize . replace : hàm vào chuyển thành không dấu
+                        --> split : chia cắt các từ thành mảng (điều kiện ở trong)
+                        --> forEach : như hàm for lặp qua các phần tử
+                        --> đoạn output : kí tự thứ 2 + thứ 1 
+            + return {...}
+                + output.toUpperCase() + value.lenghth
+                        --> hàm toUpperCase : dùng in hoa các ký tự
+                        --> cộng với độ dài của mảng
+                        --> Đoạn trên để làm không bị trùng rồi làm Id
+
+    <!-- lọc các object key rồi tạo mảng code -->
+    + services > insert.js
+            --> làm lại hàm trả ra
+        + const categories = Object.keys(data)
+        + categories.forEach(async(item) => {...})
+            + awai db.Category.create({...})
+                + code : generateCode(item),
+                        --> generateCode : lấy từ import (fn.js)
+                + value : item
+
+    <!-- tạo thêm bảng data -->
+    + services > insert.js
+            --> tạo hàm thêm data trực tiếp từ code lên 
+        + const dataArr = object.entries(data)
+                --> dataArr : biến hứng
+                --> entries : biến chuyển data thành các chuỗi string con (47:44)
+        + dataArr.forEach(item => {...})
+            + item[1]?map(async(book) => {...})
+                    --> item[1] : vì item[0] là value ban đầu
+                + await db.Book.create({...})
+                        --> các hàm từ trong models
+                    + id : book.upc
+                    + title : book.bookTitle
+                    + ...
+                    + category_code : generateCode(item[0])
+                            --> giá trị ban đầu
+                    + lưu ý : (thêm + trước các tt sau :)
+                            --> để chuyển string sang number
+                        + price 
+                        + available
+    + api.http 
+        + kiểm tra    
+                    

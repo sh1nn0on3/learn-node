@@ -385,3 +385,26 @@
     + api.http 
         + kiểm tra    
                     
+11. 
+    + viết CRUD
+            --> trình tự vẫn service > controller > routes 
+    
+    <!-- hàm READ -->
+    + service > book.js 
+            --> cop từ user     
+        + export const getBooks = ({...}) => new Promise(async(res, rej) => {...})
+            + page , name , limit , order , ...query
+                    --> giá trị truyền vào đầu
+            + try{...}catch(error){...}
+                    --> giá trị trong Promise 
+                + const queries = {raw : true , nest : true}
+                        --> raw : 
+                        --> nest : 
+                + const offset = (!page || +page < 1) ? 0 : (+page - 1)
+                        --> hàm dùng chọn trang 
+                        --> không có page thì sẽ là page đầu ( page[0] )
+                + queries
+                + ... tự làm tiếp
+    
+
+                     

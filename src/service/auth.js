@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 
 export const register = ({ email, password }) =>
   new Promise(async (resolve, reject) => {
+    console.log("abc");
     try {
       // console.log(3);
       const response = await db.User.findOrCreate({

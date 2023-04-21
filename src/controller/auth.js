@@ -13,11 +13,11 @@ export const register = async (req, res) => {
     //     mes: "Iternal Server Error",
     //   });
     // const response = await service.register(req.body);
-
     const error = joi.object({ email, password }).validate(req.body);
+
     // console.log("🚀 ~ file: auth.js:18 ~ register ~ error:", error)
-    if(error) return badRequest(error.details[0]?.message , res)
-    const response = await service.register(req.body)
+    if (!error) return badRequest(error.details[0]?.message, res);
+    const response = await service.register(req.body);
     return res.status(200).json(response);
   } catch (err) {
     // return res.status(500).json({
